@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from '../views/home.vue'
+import NProgress from  'nprogress'
+import 'nprogress/nprogress.css'
 
 const routes = [
     {
@@ -44,7 +46,7 @@ const routes = [
     {
         path: '/login',
         meta: {
-            title: '登录',
+            title: '登录',  
             noAuth: true, // 来标识一个路由是否无需认证即可访问，也就是说不需要用户登录 ,在路由守卫中直接放行
         },
         component: () => import('../views/login.vue')
@@ -64,6 +66,10 @@ const routes = [
             noAuth: true
         },
         component: () => import('../views/404.vue')
+    },
+    {
+        path:'/:path(.*)',  //贪婪匹配，没有匹配到上述路由，就走这个 
+        redirect:'/404'
     },
 ]
 // createWebHistory允许前端应用程序使用类似于传统网站的 URL 结构，而无需每次路由切换都从服务器获取新的页面资源。
@@ -86,15 +92,16 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
+    NProgress.start()
     document.title = to.meta.title
-    const role = localStorage.getItem('ms_name') || 'admin'
+    const role = localStorage.getItem('ms_name') || 'user'
     const permiss = {
         admin: ['11', '12'],
         user: ['11']
     }
     if (!role && !to.meta.noAuth) {
         next('/login')
-    }else if (typeof to.meta.permiss == 'string' 
+    }else if (typeof to.meta.permiss == 'string'   // 确认用户已经登录含有permiss值，解决登陆页面等不需要登录的无permiss界面一直跳403的问题
     && !permiss[role].includes(to.meta.permiss) 
     ) {
         next('/403')
