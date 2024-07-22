@@ -52,3 +52,26 @@
         - 对 from 进行 ref 绑定，绑定的是From 组件
         - 提交之前 valid 一下 From对象上有validate方法
     - 提交 反馈成功或失败(轻提示)  跳转
+
+- pinia
+    - 状态管理
+    - 轻量化的vuex
+    - app.use(creatPinia())
+
+- 全局状态设计
+    - collapse 侧边栏是否折叠  true | false
+        - 需要考虑窄屏的pad
+    - 数据管理设计了 permiss 权限状态
+        - 跨组件层级访问是常态，
+        - key, defaultList
+        - defaultList  可以用于计算  login.vue登陆时通过defaultList拿到所有的权限，再根据ms_name的值，this.handle_set  key 设置他的权限
+        - 当登录完成后 router.js 中的路由守卫会自动再运行一次 403会重新计算是否有权限 
+        - 任何需要校验权限的地方 会自动响应式使用 
+
+- Object.entrise 的用法 和应用场景
+    - es6 的新增的遍历对象的方法
+    - 它在Object.key() Object.value() 的基础上 将key value值作为一个数组的一二项返回一个二维数组
+    - app.component 全局声明组件的时候 一次性把ElementPlus/icons全部注册为全局组件
+    - 利用for of 遍历+ 展开运算符 进行全局注册操作
+    - 因为ElementPlus 设计的很好，可能用icons  企业一般会有自己的icon
+        ElementPlus 将 icons 拆开 更轻 ，同时也提供了定制性 
