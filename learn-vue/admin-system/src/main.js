@@ -10,7 +10,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 需要部分引入时   deffault{}  默认导出 
 // import Data, { a, c } from './text'
 // console.log(Data, a, c);
-import { 
+import {
     ElButton,
     ElForm,
     ElFormItem,
@@ -18,9 +18,17 @@ import {
     ElCheckbox,
     ElLink,
     ElIcon,
+    ElAvatar,
+    ElDropdown,
+    ElDropdownMenu,
+    ElDropdownItem,
+    ElMenu,
+    ElSubMenu,
+    ElMenuItem,
 } from 'element-plus';
 // 引入组件库依赖的样式
 import 'element-plus/dist/index.css';
+import './assets/styles/variable.css'
 
 import router from './router';
 
@@ -42,4 +50,27 @@ app
     .use(ElCheckbox)
     .use(ElLink)
     .use(ElIcon)
+    .use(ElAvatar)
+    .use(ElDropdown)
+    .use(ElDropdownMenu)
+    .use(ElDropdownItem)
+    .use(ElMenu)
+    .use(ElSubMenu)
+    .use(ElMenuItem)
+// 自定义指令
+import { usePermissStore } from './store/permiss';
+
+const permissStore = usePermissStore();
+
+app.directive('permiss', {
+    mounted(el, binding) {   // el: 承载指令的节点  指令所绑定的元素，可以用来直接操作 DOM   binding: 传给他的属性，给指令绑定的属性
+        if (binding.value &&
+            !permissStore.key.includes(String(binding.value))
+        ) {
+            el['hidden'] = true
+        }
+    }
+})
+
+app
     .mount('#app')

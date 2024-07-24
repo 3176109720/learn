@@ -61,11 +61,12 @@
 - 全局状态设计
     - collapse 侧边栏是否折叠  true | false
         - 需要考虑窄屏的pad
+        - 通过 v-if/v-else + action  完成  coolapse 的呈现
     - 数据管理设计了 permiss 权限状态
         - 跨组件层级访问是常态，
         - key, defaultList
         - defaultList  可以用于计算  login.vue登陆时通过defaultList拿到所有的权限，再根据ms_name的值，this.handle_set  key 设置他的权限
-        - 当登录完成后 router.js 中的路由守卫会自动再运行一次 403会重新计算是否有权限 
+        - 当登录完成后 router.js 中的路由守卫会自动再运行一次  403会重新计算是否有权限 
         - 任何需要校验权限的地方 会自动响应式使用 
 
 - Object.entrise 的用法 和应用场景
@@ -75,3 +76,22 @@
     - 利用for of 遍历+ 展开运算符 进行全局注册操作
     - 因为ElementPlus 设计的很好，可能用icons  企业一般会有自己的icon
         ElementPlus 将 icons 拆开 更轻 ，同时也提供了定制性 
+
+- CSS 特性
+    - transition  过渡效果  css传统的transition和vue内置的transition组件相结合
+    - css4 variable 可以实现主题的切换
+        :root { --  } 声明变量
+        var() 使用
+
+- ElDropDown 下拉菜单
+    - 触发Dropdown的内容 交给slot 插槽
+    - DropdownMenu里的内容 交给具名slot 
+    - slot 带来了组件超级定制性 
+    - ElDialog slot header default footer  三部分，无限复用 
+    - template 是 vue 的内置组件 用来包一下内部的内容， 挂载到页面上就消失了
+        <template #header> 
+
+- template 的用法
+    - template 是 vue 组件的模板声明
+    - template #title 具名store  插入到相应位置
+    - template 可以用来接收指令 v-if v-show 
